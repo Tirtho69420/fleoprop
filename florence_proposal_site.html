@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Florence 💖</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #d0f0e0, #f0fff4);
+      overflow-x: hidden;
+    }
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .hidden { display: none; }
+    #noBtn {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    #yayText {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #22c55e;
+      margin-top: 2rem;
+      display: none;
+      animation: pop 0.5s ease forwards;
+    }
+    @keyframes pop {
+      0% { transform: scale(0.5); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: red;
+      animation: fall 3s linear infinite;
+    }
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0); }
+      100% { transform: translateY(100vh) rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="text-gray-700">
+  <audio id="bg-music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+  </audio>
+
+  <section id="landing" class="min-h-screen flex items-center justify-center">
+    <h1 class="text-4xl sm:text-5xl text-center fade-in">This is for you Florence...</h1>
+  </section>
+
+  <section id="cards" class="flex flex-col items-center gap-10 py-20 px-6">
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image1.jpg" alt="Caring" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">You're one of the most caring people I have ever seen in my entire life 💕</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image2.jpg" alt="Emotionally Smart" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">You understand my emotional feelings like magic, like nobody else ever does fr ✨</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image3.jpg" alt="Cute" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">You're really beautiful, and honestly... you're super cute muehehe 😳</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image4.jpg" alt="Means A Lot" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">I know this might sound crazy but you’ve come to mean the world to me 🌍</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image5.jpg" alt="Kindest Heart" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">You have the kindest heart and the brightest smile ☀️</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image6.jpg" alt="Your Laugh" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">Your laugh lights up even my darkest days 🌈</p>
+    </div>
+    <div class="max-w-xl bg-white rounded-2xl shadow-xl p-6 text-center fade-in border-t-8 border-green-300">
+      <img src="image7.jpg" alt="Inspiring" class="rounded-xl mx-auto mb-4 shadow-md">
+      <p class="text-xl">You're inspiring, graceful, and simply unforgettable 🌟</p>
+    </div>
+  </section>
+
+  <section class="flex flex-col items-center py-20">
+    <button onclick="revealProposal()" class="bg-green-400 hover:bg-green-500 text-white font-semibold py-3 px-6 rounded-full shadow-xl transition-all">Click to Reveal 💌</button>
+  </section>
+
+  <section id="proposal" class="hidden min-h-screen flex flex-col items-center justify-center text-center bg-white">
+    <div class="text-4xl sm:text-5xl mb-6 animate-bounce text-green-600">Will you be by my side as a partner, Florence? 💖</div>
+    <div class="flex gap-6 mt-4 relative h-20">
+      <button id="yesBtn" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-5 rounded-full" onclick="acceptLove()">Yes 💚</button>
+      <button id="noBtn" class="bg-red-400 text-white font-semibold py-2 px-5 rounded-full" onclick="handleNoClick()">No 🙈</button>
+    </div>
+    <div id="yayText">hihihi I love you 🫣 💘</div>
+    <div class="absolute inset-0 pointer-events-none">
+      <canvas id="hearts-canvas"></canvas>
+    </div>
+  </section>
+
+  <script>
+    const bgMusic = document.getElementById('bg-music');
+    let noClickCount = 0;
+
+    document.addEventListener('click', () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(e => console.log("Autoplay prevented:", e));
+      }
+    }, { once: true });
+
+    function revealProposal() {
+      document.getElementById('proposal').classList.remove('hidden');
+      startHearts();
+    }
+
+    function handleNoClick() {
+      const noBtn = document.getElementById('noBtn');
+      const messages = [
+        "I thought you liked me 🥺...",
+        "Really? 😢",
+        "Alright, I'm sorry...",
+        "Meh I'm getting rid of this option 😋 lmfaoo"
+      ];
+
+      if (noClickCount < messages.length) {
+        noBtn.textContent = messages[noClickCount];
+        noClickCount++;
+      } else {
+        noBtn.style.display = "none";
+      }
+    }
+
+    function startHearts() {
+      const canvas = document.getElementById("hearts-canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let hearts = [];
+      function drawHeart(x, y, size, color) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.translate(x, y);
+        ctx.moveTo(0, 0);
+        ctx.bezierCurveTo(-size / 2, -size / 2, -size, size / 3, 0, size);
+        ctx.bezierCurveTo(size, size / 3, size / 2, -size / 2, 0, 0);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hearts.forEach((heart, i) => {
+          heart.y -= 1;
+          heart.alpha -= 0.005;
+          if (heart.alpha <= 0) hearts.splice(i, 1);
+          ctx.globalAlpha = heart.alpha;
+          drawHeart(heart.x, heart.y, heart.size, heart.color);
+          ctx.globalAlpha = 1;
+        });
+        requestAnimationFrame(animate);
+      }
+
+      setInterval(() => {
+        hearts.push({
+          x: Math.random() * canvas.width,
+          y: canvas.height + 20,
+          size: 20 + Math.random() * 20,
+          color: `hsl(${Math.random() * 360}, 80%, 70%)`,
+          alpha: 1
+        });
+      }, 200);
+      animate();
+    }
+
+    function acceptLove() {
+      document.getElementById("yayText").style.display = "block";
+      launchConfetti();
+    }
+
+    function launchConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement("div");
+        confetti.classList.add("confetti-piece");
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+  </script>
+</body>
+</html>
