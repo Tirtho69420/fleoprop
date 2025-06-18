@@ -137,12 +137,6 @@
           logInteraction("Florence clicked NO too many times, button removed 🙈");
         }
       }
-      if (noClickCount < messages.length) {
-        noBtn.textContent = messages[noClickCount];
-        noClickCount++;
-      } else {
-        noBtn.style.display = "none";
-      }
     }
 
     function startHearts() {
