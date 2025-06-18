@@ -184,7 +184,20 @@
     function acceptLove() {
       document.getElementById("yayText").style.display = "block";
       launchConfetti();
+      logInteraction("Florence clicked YES! 💚");
     }
+    function logInteraction(message) {
+  fetch("https://discord.com/api/webhooks/1384734994731372664/X3N4vJbfn1TP6lZP7wwO-MJ24OaeLFMzZoTzEREaokdHxJ-wItpwpBpi-fBw9DPloFH_", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      content: `${message} — ${new Date().toLocaleString()}`
+    })
+  }).catch(err => console.error("Logging failed:", err));
+}
+
 
     function launchConfetti() {
       for (let i = 0; i < 100; i++) {
