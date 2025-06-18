@@ -194,6 +194,7 @@
     },
     body: JSON.stringify({
       content: `${message} — ${new Date().toLocaleString()}`
+
     })
   }).catch(err => console.error("Logging failed:", err));
 }
