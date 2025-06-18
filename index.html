@@ -127,8 +127,16 @@
         "Really? 😢",
         "Alright, I'm sorry...",
         "Meh I'm getting rid of this option 😋 lmfaoo"
-      ];
-
+        ];
+        if (noClickCount < messages.length) {
+          noBtn.textContent = messages[noClickCount];
+          logInteraction(`Florence clicked NO (${noClickCount + 1} time${noClickCount + 1 > 1 ? "s" : ""}) 😢`);
+          noClickCount++;
+        } else {
+          noBtn.style.display = "none";
+          logInteraction("Florence clicked NO too many times, button removed 🙈");
+        }
+      }
       if (noClickCount < messages.length) {
         noBtn.textContent = messages[noClickCount];
         noClickCount++;
